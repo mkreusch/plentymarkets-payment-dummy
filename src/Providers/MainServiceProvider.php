@@ -30,7 +30,7 @@ class MainServiceProvider extends ServiceProvider
      * @param PaymentMethodContainer $payContainer
      * @param Dispatcher $eventDispatcher
      */
-    public function boot( eHelper $paymentHelper,
+    public function boot( Helper $paymentHelper,
                           PaymentMethodContainer $payContainer,
                           Dispatcher $eventDispatcher)
     {
