@@ -15,7 +15,7 @@
     "keywords"          : [],
     "type"              : "payment",
     "namespace"         : "DummyTechName",
-    "serviceProvider"   : "DummyTechName\\Providers\\ServiceProvider",
+    "serviceProvider"   : "DummyTechName\\Providers\\MainServiceProvider",
     "javaScriptFiles"   : [],
     "containers"        : [],
     "dataProviders"     : [],
