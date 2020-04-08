@@ -1,17 +1,13 @@
 <?php
- 
+
 namespace DummyTechName\Providers;
- 
-use Plenty\Plugin\ServiceProvider;
-use Plenty\Plugin\Events\Dispatcher;
-use Plenty\Modules\Payment\Events\Checkout\ExecutePayment;
-use Plenty\Modules\Payment\Events\Checkout\GetPaymentMethodContent;
-use Plenty\Modules\Basket\Events\Basket\AfterBasketCreate;
-use Plenty\Modules\Basket\Events\Basket\AfterBasketChanged;
-use Plenty\Modules\Basket\Events\BasketItem\AfterBasketItemAdd;
+
+
+use DummyTechName\Helper\PaymentHelper;
+use DummyTechName\Services\PaymentMethodService;
 use Plenty\Modules\Payment\Method\Contracts\PaymentMethodContainer;
-use DummyTechName\Helper\Helper;
- 
+use Plenty\Plugin\ServiceProvider;
+
 /**
  * Class MainServiceProvider
  * @package DummyTechName\Providers
@@ -20,29 +16,20 @@ class MainServiceProvider extends ServiceProvider
 {
     public function register()
     {
- 
+
     }
- 
+
     /**
      * Boot additional services for the payment method
      *
-     * @param Helper $paymentHelper
+     * @param PaymentHelper $paymentHelper
      * @param PaymentMethodContainer $payContainer
-     * @param Dispatcher $eventDispatcher
      */
-    public function boot( Helper $paymentHelper,
-                          PaymentMethodContainer $payContainer,
-                          Dispatcher $eventDispatcher)
-    {
-        // Create the ID of the payment method if it doesn't exist yet
+    public function boot(
+        PaymentHelper $paymentHelper,
+        PaymentMethodContainer $payContainer
+    ) {
         $paymentHelper->createMopIfNotExists();
-    }
-    
-    public function isBackendSearchable(){
-        return true;
-    }
-    
-    public function isBackendActive(){
-        return true;
+        $payContainer->register(PaymentMethodService::PLUGIN_KEY . '::' . PaymentMethodService::PAYMENT_KEY, PaymentMethodService::class, []);
     }
 }

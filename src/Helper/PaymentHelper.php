@@ -1,24 +1,24 @@
 <?php
- 
+
 namespace DummyTechName\Helper;
- 
+
+use DummyTechName\Services\PaymentMethodService;
 use Plenty\Modules\Payment\Method\Contracts\PaymentMethodRepositoryContract;
-use Plenty\Modules\Payment\Method\Models\PaymentMethod;
- 
+
 /**
- * Class Helper
+ * Class PaymentHelper
  *
  * @package DummyTechName\Helper
  */
-class Helper
+class PaymentHelper
 {
     /**
      * @var PaymentMethodRepositoryContract $paymentMethodRepository
      */
     private $paymentMethodRepository;
- 
+
     /**
-     * Helper constructor.
+     * PaymentHelper constructor.
      *
      * @param PaymentMethodRepositoryContract $paymentMethodRepository
      */
@@ -26,23 +26,23 @@ class Helper
     {
         $this->paymentMethodRepository = $paymentMethodRepository;
     }
- 
+
     /**
      * Create the ID of the payment method if it doesn't exist yet
      */
     public function createMopIfNotExists()
     {
 
-        if($this->getPaymentMethod() == 'no_paymentmethod_found')
-        {
-            $paymentMethodData = array( 'pluginKey' => 'plenty_DummyTechName',
-                                        'paymentKey' => 'DummyTechName',
-                                        'name' => 'DummyNameDe');
- 
+        if ($this->getPaymentMethod() == 'no_paymentmethod_found') {
+            $paymentMethodData = [
+                'pluginKey'  => PaymentMethodService::PLUGIN_KEY,
+                'paymentKey' => PaymentMethodService::PAYMENT_KEY,
+                'name'       => PaymentMethodService::PAYMENT_NAME
+            ];
             $this->paymentMethodRepository->createPaymentMethod($paymentMethodData);
         }
     }
- 
+
     /**
      * Load the ID of the payment method for the given plugin key
      * Return the ID for the payment method
@@ -51,19 +51,16 @@ class Helper
      */
     public function getPaymentMethod()
     {
-        $paymentMethods = $this->paymentMethodRepository->allForPlugin('plenty_DummyTechName');
- 
-        if( !is_null($paymentMethods) )
-        {
-            foreach($paymentMethods as $paymentMethod)
-            {
-                if($paymentMethod->paymentKey == 'DummyTechName')
-                {
+        $paymentMethods = $this->paymentMethodRepository->allForPlugin(PaymentMethodService::PLUGIN_KEY);
+
+        if (!is_null($paymentMethods)) {
+            foreach ($paymentMethods as $paymentMethod) {
+                if ($paymentMethod->paymentKey == PaymentMethodService::PAYMENT_KEY) {
                     return $paymentMethod->id;
                 }
             }
         }
- 
+
         return 'no_paymentmethod_found';
     }
 }

@@ -1,5 +1,5 @@
 {
-    "version"           : "1.0.1",
+    "version"           : "1.0.0",
     "name"              : "DummyTechName",
     "marketplaceName"   : {"de":"DummyNameDe","en":"DummyNameEn"},
     "license"           : "MIT",
@@ -15,7 +15,7 @@
     "keywords"          : [],
     "type"              : "payment",
     "namespace"         : "DummyTechName",
-    "serviceProvider"   : "DummyTechName\\Providers\\MainServiceProvider",
+    "serviceProvider"   : "DummyTechName\\Providers\\ServiceProvider",
     "javaScriptFiles"   : [],
     "containers"        : [],
     "dataProviders"     : [],
